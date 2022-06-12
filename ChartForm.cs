@@ -26,18 +26,15 @@ namespace PILab5
 
         private void ChartForm_Paint(object sender, PaintEventArgs e)
         {
-            using (_Graphics = e.Graphics)
-            { 
-                _AxisBuilder.SetGraphics(_Graphics);
-                _AxisBuilder.DrawBoth();
-
-                _ChartBuilder.SetGraphics(_Graphics);
-
-                DrawChart();
-            }
+            DrawAll();
         }
 
         private void ChartForm_Load(object sender, EventArgs e)
+        {
+            GenerateData();
+        }
+
+        private void GenerateData()
         {
             const int ROWS = 5;
             const int COLS = 3;
@@ -58,9 +55,10 @@ namespace PILab5
                 UserDataGrid.Rows.Add(row);
             }
         }
+
         private void OnCompute(object sender, EventArgs e)
         {
-            DrawChart();
+            DrawAll();
         }
 
         private void DrawChart()
@@ -98,6 +96,32 @@ namespace PILab5
                     _ChartBuilder.DrawBar(new Point(x, y + prevSum), values[j]);
                 }
             }
+        }
+
+        private void OnGenerate(object sender, EventArgs e)
+        {
+            GenerateData();
+            DrawAll();
+        }
+
+        private void DrawAll()
+        {
+            using (_Graphics = CreateGraphics())
+            {
+                _Graphics.Clear(Color.AntiqueWhite);
+
+                _AxisBuilder.SetGraphics(_Graphics);
+                _AxisBuilder.DrawBoth();
+
+                _ChartBuilder.SetGraphics(_Graphics);
+
+                DrawChart();
+            }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
